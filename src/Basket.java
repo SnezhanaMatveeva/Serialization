@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Basket {
+public class Basket implements Serializable{
     private static File file;
     private int[] prices;
     private String[] products;
@@ -67,6 +67,27 @@ public class Basket {
             System.out.println(name+" "+ amount+" шт "+price+" руб/шт "+sum+" руб в сумме");
         }
         System.out.println("Итого "+sumProducts+" руб");
+    }
+    public void saveBin(File file) {
+        try (FileOutputStream fos=new FileOutputStream(file)){
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Basket loadFromBinFile(File file) {
+        Basket basket = null;
+        try (FileInputStream fis=new FileInputStream(file)){
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            basket = (Basket) ois.readObject();
+            ois.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return basket;
     }
 
     public Map<String, Integer> getMapBasket() {

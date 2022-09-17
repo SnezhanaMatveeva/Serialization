@@ -6,14 +6,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        File file = new File("C:\\Users\\Снежана\\IdeaProjects\\Serialization\\src\\basket.txt");
+        File file = new File("src/basket.bin");
 
         String[] products = {"Молоко", "Хлеб", "ГречневаяКрупа", "Мясо", "Сахар"};
         int[] prices = {50, 15, 60, 120, 45};
         Basket basket = new Basket(prices, products);
 
         if (file.exists()) {
-            basket = Basket.loadFromTxtFile(file);
+            basket = Basket.loadFromBinFile(file);
         }
         print(products, prices);
 
@@ -55,7 +55,7 @@ public class Main {
             }
             basket.setSumProducts(basket.getSumProducts() + currentPrice * productCount);
 
-            basket.saveTxt(file);
+            basket.saveBin(file);
         }
     }
 
